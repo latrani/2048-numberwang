@@ -4,9 +4,24 @@ function HTMLActuator() {
   this.bestContainer    = document.querySelector(".best-container");
   this.messageContainer = document.querySelector(".game-message");
   this.sharingContainer = document.querySelector(".score-sharing");
-  this.thatsNumberwang  = document.querySelector(".thats-numberwang");
+  this.messageContainer  = document.querySelector(".thats-numberwang");
+  this.theBoard = document.querySelector(".game-container");
 
   this.score = 0;
+  this.boardRotating = false;
+
+  var that = this;
+  this.theBoard.addEventListener("webkitAnimationStart", function (event) {
+    if (event.animationName === "rotate-the-board") {
+      that.boardRotating = true;
+    }
+  });
+  this.theBoard.addEventListener("webkitAnimationEnd", function (event) {
+    if (event.animationName === "rotate-the-board") {
+      that.boardRotating = false;
+    }
+  });
+
 }
 
 HTMLActuator.prototype.actuate = function (grid, metadata) {
@@ -128,8 +143,12 @@ HTMLActuator.prototype.positionClass = function (position) {
 
 HTMLActuator.prototype.updateScore = function (score) {
   this.clearContainer(this.scoreContainer);
-  this.clearContainer(this.thatsNumberwang);
+  this.clearContainer(this.messageContainer);
 
+  this.theBoard.classList.remove("rotate");
+
+  var step = 256;
+  var mightRotate = (this.score % step) > (score % step);
   var difference = score - this.score;
   this.score = score;
 
@@ -143,11 +162,20 @@ HTMLActuator.prototype.updateScore = function (score) {
     this.scoreContainer.appendChild(addition);
   }
 
+  var announce;
   if (Math.random() > 0.9 && score > 8) {
-    var announce = document.createElement("p");
+    announce = document.createElement("p");
     announce.classList.add("show-numberwang");
     announce.textContent = "That’s Numberwang!";
-    this.thatsNumberwang.appendChild(announce);
+    this.messageContainer.appendChild(announce);
+  }
+  else if (Math.random() > 0.5 && mightRotate) {
+    announce = document.createElement("p");
+    announce.classList.add("show-numberwang");
+    announce.classList.add("show-rotate");
+    announce.textContent = "Let's rotate the board!";
+    this.messageContainer.appendChild(announce);
+    this.theBoard.classList.add("rotate");
   }
 };
 
@@ -156,7 +184,7 @@ HTMLActuator.prototype.updateBestScore = function (bestScore) {
 };
 
 HTMLActuator.prototype.message = function (won) {
-  this.clearContainer(this.thatsNumberwang);
+  this.clearContainer(this.messageContainer);
 
   var type    = won ? "game-won" : "game-over";
   var message = won ? "You’re the Numberwang!" : "You’ve been Wangernumbed!";

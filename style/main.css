@@ -158,7 +158,7 @@ hr {
   height: 500px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;}
   .game-container .thats-numberwang {
     position: absolute;
     top: 0;
@@ -178,6 +178,21 @@ hr {
       -webkit-animation: fade-in-out 600ms ease-in;
       -moz-animation: fade-in-out 600ms ease-in;
       animation: fade-in-out 600ms ease-in;
+      -webkit-animation-fill-mode: both;
+      -moz-animation-fill-mode: both;
+      animation-fill-mode: both; }
+    .game-container .thats-numberwang .show-rotate {
+      position: absolute;
+      font-size: 48px;
+      font-weight: bold;
+      height: 60px;
+      width: 100%;
+      text-align: center;
+      margin-top: 50%;
+      top: -30px;
+      -webkit-animation: show-rotate-the-board 2000ms ease-in;
+      -moz-animation: show-rotate-the-board 2000ms ease-in;
+      animation: show-rotate-the-board 600ms ease-in;
       -webkit-animation-fill-mode: both;
       -moz-animation-fill-mode: both;
       animation-fill-mode: both; }
@@ -851,3 +866,48 @@ hr {
         .btc-donate .address:after {
           left: 50%;
           bottom: 2px; } }
+
+.container {
+  -webkit-perspective: 1000;
+  perspective: 1000;
+}
+
+@-webkit-keyframes rotate-the-board {
+  0% {
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);}
+
+  50% {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);}
+
+  100% {
+    -webkit-transform: rotateY(359deg);
+    transform: rotateY(359deg);}
+}
+
+@-webkit-keyframes show-rotate-the-board {
+  0% {
+    opacity: 0;}
+
+  5% {
+    opacity: 1;}
+
+  95% {
+    opacity: 1;}
+
+  100% {
+    opacity: 0;}
+}
+
+.show-rotate {
+  -webkit-animation: show-rotate-the-board 10000ms ease-in-out 100ms;
+  -moz-animation: show-rotate-the-board 10000ms ease-in-out 100ms;
+  animation: show-rotate-the-board 10000ms ease-in-out 100ms;
+}
+
+.rotate {
+  -webkit-animation: rotate-the-board 10000ms ease-in-out 100ms;
+  -moz-animation: rotate-the-board 10000ms ease-in-out 100ms;
+  animation: rotate-the-board 10000ms ease-in-out 100ms;
+}

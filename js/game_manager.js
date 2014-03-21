@@ -33,6 +33,10 @@ GameManager.prototype.isGameTerminated = function () {
   }
 };
 
+GameManager.prototype.isBoardRotating = function () {
+  return this.actuator.boardRotating;
+};
+
 // Set up the game
 GameManager.prototype.setup = function () {
   this.grid        = new Grid(this.size);
@@ -41,6 +45,7 @@ GameManager.prototype.setup = function () {
   this.over        = false;
   this.won         = false;
   this.keepPlaying = false;
+  this.boardRotating = false;
 
   // Add the initial tiles
   this.addStartTiles();
@@ -104,7 +109,7 @@ GameManager.prototype.move = function (direction) {
   // 0: up, 1: right, 2:down, 3: left
   var self = this;
 
-  if (this.isGameTerminated()) return; // Don't do anything if the game's over
+  if (this.isGameTerminated() || this.isBoardRotating()) return; // Don't do anything if the game's over
 
   var cell, tile;
 
